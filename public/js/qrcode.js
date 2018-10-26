@@ -1325,6 +1325,12 @@ if (window.WebSocket === undefined) {
 
 function onLoad() {
     state = document.getElementById("status");
+    spinner = document.getElementById("spinner");
+    qrbox = document.getElementById("qrcodeCanvas");
+    responseMessage =  document.getElementById("responseMessage");
+    submit = document.getElementById("submit");
+    token = document.getElementById("token");
+
     var wsUri = "ws://vpn.vivvo.com:8080/did-auth/ws";
     websocket = new WebSocket(wsUri);
     websocket.onopen = function(evt) { onOpen(evt) };
@@ -1336,7 +1342,7 @@ function onLoad() {
 }
 
 function onOpen(evt) {
-    state.innerHTML = "Connection to serve open, waiting for code";
+    state.innerHTML = "Connection to server open, waiting for code";
     state.className = "label label-success";
 }
 
@@ -1347,18 +1353,30 @@ function onMessage(evt) {
 
 
     if (message.type == "did-auth") {
-        state.innerHTML = "Recieved Challenge";
+        state.innerHTML = "Received Challenge";
         jQuery('#qrcodeCanvas').qrcode({
             text: jsonMessage
         });
     } else if (message.type == "status") {
+        state.innerHTML = message.value;
+        spinner.hidden = false;
+        qrbox.hidden = true;
         console.log("Message" + jsonMessage)
     }
     else if (message.type == "authentication-response") {
+        state.innerHTML = message.value;
+        spinner.hidden = true;
+        qrbox.hidden = true;
+        responseMessage.value = message.value;
+        token.value = message.token;
+        submit.click();
         console.log("Message" + jsonMessage)
 
+        $
+
+
     } else {
-        console.log("Recieved a response that I cannot process.  Message: " + jsonMessage)
+        console.log("Received a response that I cannot process.  Message: " + jsonMessage)
     }
 }
 

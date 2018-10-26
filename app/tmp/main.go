@@ -36,7 +36,31 @@ func main() {
 				Args: []*revel.MethodArg{ 
 				},
 				RenderArgNames: map[int][]string{ 
-					15: []string{ 
+					24: []string{ 
+					},
+				},
+			},
+			&revel.MethodType{
+				Name: "ProcessDidAuth",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "token", Type: reflect.TypeOf((*string)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+				},
+			},
+			
+		})
+	
+	revel.RegisterController((*controllers.Authenticated)(nil),
+		[]*revel.MethodType{
+			&revel.MethodType{
+				Name: "Index",
+				Args: []*revel.MethodArg{ 
+					&revel.MethodArg{Name: "token", Type: reflect.TypeOf((*string)(nil)) },
+				},
+				RenderArgNames: map[int][]string{ 
+					17: []string{ 
+						"didUser",
 					},
 				},
 			},

@@ -15,6 +15,29 @@ func (_ tApp) Index(
 	return revel.MainRouter.Reverse("App.Index", args).URL
 }
 
+func (_ tApp) ProcessDidAuth(
+		token string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "token", token)
+	return revel.MainRouter.Reverse("App.ProcessDidAuth", args).URL
+}
+
+
+type tAuthenticated struct {}
+var Authenticated tAuthenticated
+
+
+func (_ tAuthenticated) Index(
+		token string,
+		) string {
+	args := make(map[string]string)
+	
+	revel.Unbind(args, "token", token)
+	return revel.MainRouter.Reverse("Authenticated.Index", args).URL
+}
+
 
 type tStatic struct {}
 var Static tStatic

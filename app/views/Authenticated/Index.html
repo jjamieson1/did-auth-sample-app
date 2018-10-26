@@ -1,0 +1,17 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<div class="page-description">
+    <h3 style="color:white">Welcome {{.didUser.FirstName}} {{.didUser.LastName}}</h3>
+</div>
+
+<div class="container">
+    <div class="row">
+    <p>Your email is {{.didUser.EmailAddress }}</p>
+        <p>Your email is {{.didUser.EmailAddress }}</p>
+        <p>Your public key is {{.didUser.PublicKey }}</p>
+        <p>Your ID is {{.didUser.Id }}</p>
+    </div>
+</div>
+
+{{template "footer.html" .}}
