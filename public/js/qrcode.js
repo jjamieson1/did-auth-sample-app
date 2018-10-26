@@ -1308,14 +1308,66 @@ QRBitBuffer.prototype = {
 
 //
 
+if (window.WebSocket === undefined) {
+    state.innerHTML = "sockets not supported";
+    state.className = "fail";
+}else {
+    if (typeof String.prototype.startsWith != "function") {
+        String.prototype.startsWith = function (str) {
+            return this.indexOf(str) == 0;
+        };
+    }
+
+    window.addEventListener("load", onLoad, false);
+}
+
+
+
 function onLoad() {
-    var wsUri = "ws://vpn.vivvo.com:4501/did-auth/ws";
+    state = document.getElementById("status");
+    var wsUri = "ws://vpn.vivvo.com:8080/did-auth/ws";
     websocket = new WebSocket(wsUri);
     websocket.onopen = function(evt) { onOpen(evt) };
+
+     websocket.onclose = function(evt) { onClose(evt) };
+     websocket.onmessage = function(evt) { onMessage(evt) };
+     websocket.onerror = function(evt) { onError(evt) };
 
 }
 
 function onOpen(evt) {
-    state.qrCodeText = evt.toString();
-    console.log(state.qrCodeText)
+    state.innerHTML = "Connection to serve open, waiting for code";
+    state.className = "label label-success";
+}
+
+function onMessage(evt) {
+
+    var jsonMessage = evt.data;
+    var message = JSON.parse(jsonMessage)
+
+
+    if (message.type == "did-auth") {
+        state.innerHTML = "Recieved Challenge";
+        jQuery('#qrcodeCanvas').qrcode({
+            text: jsonMessage
+        });
+    } else if (message.type == "status") {
+        console.log("Message" + jsonMessage)
+    }
+    else if (message.type == "authentication-response") {
+        console.log("Message" + jsonMessage)
+
+    } else {
+        console.log("Recieved a response that I cannot process.  Message: " + jsonMessage)
+    }
+}
+
+function onClose(evt) {
+    state.className = "label label-danger";
+    state.innerHTML = "Not connected";
+}
+
+function onError(evt) {
+    state.className = "label-danger";
+    state.innerHTML = "Communication error";
 }
