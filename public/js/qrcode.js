@@ -1363,7 +1363,10 @@ function onLoad() {
     websocket = new WebSocket(wsUri);
     websocket.onopen = function (evt) {
         onOpen(evt)
+        onSendKey()
     };
+
+
 
     websocket.onclose = function (evt) {
         onClose(evt)
@@ -1373,8 +1376,13 @@ function onLoad() {
     };
     websocket.onerror = function (evt) {
         onError(evt)
+        onClose()
     };
 
+}
+
+function onSendKey() {
+    websocket.send("0f86d9f1-6c9e-430c-a42c-fe25790b25fe")
 }
 
 function onOpen(evt) {
@@ -1406,10 +1414,6 @@ function onMessage(evt) {
         responseMessage.value = message.value;
         token.value = message.token;
         submit.click();
-        console.log("Message" + jsonMessage)
-
-        $
-
 
     } else {
         console.log("Received a response that I cannot process.  Message: " + jsonMessage)
@@ -1419,6 +1423,7 @@ function onMessage(evt) {
 function onClose(evt) {
     state.className = "label label-danger";
     state.innerHTML = "Not connected";
+    websocket.close()
 }
 
 function onError(evt) {
