@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/revel/revel"
+	"github.com/jjamieson1/did-auth-sample-app/app/controllers"
 )
 
 var (
@@ -35,6 +36,8 @@ func init() {
 	// revel.OnAppStart(ExampleStartupScript)
 	// revel.OnAppStart(InitDB)
 	// revel.OnAppStart(FillCache)
+	revel.InterceptFunc(controllers.IsUserAuthenticated, revel.BEFORE, &controllers.Authenticated{})
+
 }
 
 // HeaderFilter adds common security headers

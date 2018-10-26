@@ -9,15 +9,18 @@
     <div class="row">
         <div class="col-md-4"></div>
         <div class="col-md-4">
+        {{template "flash.html" .}}
             <p class="label label-info text-center" id="status">Not connected</p>
             <br /><br /><br />
-            <form action="/App/ProcessDidAuth" method="post">
-                <input type="hidden" id="token" name="token" value=""/>
-                <span id="qrcodeCanvas"></span>
-                <span id="responseMessage"></span>
-                <span id="spinner" hidden><i class="fas fa-spinner fa-spin" style="font-size:96px; color:#5e4985"></i></span>
-                <button type="submit" id="submit" name="submit" hidden></button>
-            </form>
+            <div>
+                <form action="/App/ProcessDidAuth" method="post">
+                    <input type="hidden" id="token" name="token" value=""/>
+                    <span id="qrcodeCanvas"></span>
+                    <span id="responseMessage"></span>
+                    <span id="spinner" hidden><img src="/public/img/spinner.gif" /></span>
+                    <button type="submit" id="submit" name="submit" hidden></button>
+                </form>
+            </div>
         </div>
         <div class="col-md-4">
         </div>

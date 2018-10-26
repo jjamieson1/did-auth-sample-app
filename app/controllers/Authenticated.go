@@ -16,3 +16,11 @@ func (c Authenticated) Index(token string) revel.Result {
 
 	return c.Render(didUser)
 }
+
+func IsUserAuthenticated(c *revel.Controller) revel.Result {
+	if c.Session["id"] == "" {
+		c.Flash.Error("Please log in first")
+		return c.Redirect(App.Index)
+	}
+	return nil
+}

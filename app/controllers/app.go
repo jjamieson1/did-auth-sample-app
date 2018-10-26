@@ -28,7 +28,9 @@ func (c App) ProcessDidAuth(token string) revel.Result {
 
 	var didUser DidUser
 	///did-auth/challenge/{nonce}/user
-	url := "did-auth/challenge/" + token + "/user"
+	url := "http://vpn.vivvo.com:8080/did-auth/challenge/" + token + "/user"
+
+	log.Printf("Calling %v", url)
 
 	resty.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
 	resp, err := resty.R().
@@ -42,8 +44,11 @@ func (c App) ProcessDidAuth(token string) revel.Result {
 	err = json.Unmarshal(resp.Body(), &didUser)
 	if err != nil {
 		log.Printf("Error getting a response from the nonce. error: %v", err.Error())
+		c.Flash.Error("Error logging you in: error, %v", err.Error())
+		return c.Redirect(App.Index)
 	}
-
+	log.Printf("Response : %v", resp.Body())
+	log.Printf("Logged in user: %v, %v, %v, %v, %v", didUser.FirstName,didUser.LastName,didUser.EmailAddress, didUser.PublicKey,didUser.Id )
 	c.Session["firstName"] = didUser.FirstName
 	c.Session["lastName"] = didUser.LastName
 	c.Session["email"] = didUser.EmailAddress
