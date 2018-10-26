@@ -1,0 +1,8 @@
+{
+  "listener": "8403",
+  "apiKey" : "e7467699-46b0-4b76-a4b0-867e18309935",
+  "appKey" : "52d5f86e-cccf-49cd-b35e-e57fb7957de0",
+  "c1Url" : "https://c1demo.vivvo.com/",
+  "c1SampleApp": "https://business-demo.app.vivvo.com:443/"
+}
+

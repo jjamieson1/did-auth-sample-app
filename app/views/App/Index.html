@@ -1,0 +1,27 @@
+{{set . "title" "Home"}}
+{{template "header.html" .}}
+
+<div class="page-description">
+    <h3 style="color:white">Registration</h3>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <form action="/App/ProcessStuff" method="post">
+                <span id="qrcodeCanvas"></span>
+            </form>
+            {{/*<div id="qrcodeCanvas"></div>*/}}
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+
+
+        <script>
+            jQuery('#qrcodeCanvas').qrcode({
+                text	: ""
+            });
+        </script>
+{{template "footer.html" .}}
