@@ -1,10 +1,9 @@
 package controllers
 
 import (
-	"crypto/tls"
 	"encoding/json"
-	"github.com/go-resty/resty"
 	"github.com/revel/revel"
+	"gopkg.in/resty.v1"
 	"log"
 )
 
@@ -28,19 +27,19 @@ func (c App) ProcessDidAuth(token string) revel.Result {
 
 	var didUser DidUser
 	///did-auth/challenge/{nonce}/user
-	url := "http://vpn.vivvo.com:8080/did-auth/challenge/" + token + "/user"
+	url := "https://eeze.io/did-auth/challenge/" + token + "/user"
 
 	log.Printf("Calling %v", url)
 
-	resty.SetTLSClientConfig(&tls.Config{InsecureSkipVerify: true})
 	resp, err := resty.R().
 		SetHeader("Accept", "application/json").
-		SetHeader("Authorization", "18445a73-0c23-4ca3-86dc-2f16a194f419").
+		SetHeader("Authorization", "adbcc652-c0f0-4692-a264-7ca3a864a57a").
 		Get(url)
 	if err != nil {
 		log.Printf("Error with the nonce.")
 		c.Flash.Error("Error validating the response, error: %v", err.Error())
 	}
+	log.Printf("Body = %s", resp.Body())
 	err = json.Unmarshal(resp.Body(), &didUser)
 	if err != nil {
 		log.Printf("Error getting a response from the nonce. error: %v", err.Error())

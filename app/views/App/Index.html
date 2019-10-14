@@ -8,18 +8,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4"></div>
-        <div class="col-md-4">
+        <div class="col-md-4" style="text-align: center">
         {{template "flash.html" .}}
-            <p class="label label-info text-center" id="status">Not connected</p>
             <br /><br /><br />
-            <form action="/App/ProcessDidAuth" method="post">
-                <script src="/public/js/qrcode.js"
-                        dataKey="0f86d9f1-6c9e-430c-a42c-fe25790b25fd"
-                        dataName="Eden.Green"
-                        dataDescription="Authorization"
-                        dataImage="https://stripe.com/img/documentation/checkout/marketplace.png"
-                        dataLocale="auto">
-                </script>
+            <form id="eeze-form" action="/App/ProcessDidAuth" method="post">
+                <script id="eeze" src="https://eeze.io/public/js/eeze.js" data-key="8f8715e0-9392-490c-a6e5-d8beba7b7a1e"></script>
             </form>
         </div>
         <div class="col-md-4">

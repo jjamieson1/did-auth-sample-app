@@ -1,6 +1,9 @@
 package controllers
 
-import "github.com/revel/revel"
+import (
+	"github.com/revel/revel"
+	"log"
+)
 
 type Authenticated struct {
 	*revel.Controller
@@ -8,11 +11,17 @@ type Authenticated struct {
 
 func (c Authenticated) Index(token string) revel.Result {
 	var didUser DidUser
-	didUser.FirstName = c.Session["firstName"]
-	didUser.LastName = c.Session["lastName"]
-	didUser.EmailAddress = c.Session["email"]
-	didUser.PublicKey = c.Session["publicKey"]
-	didUser.Id = c.Session["id"]
+	var err error
+	err = c.Session.Set("firstName", didUser.FirstName)
+	err = c.Session.Set("lastName", didUser.LastName)
+	err = c.Session.Set("emailAddress", didUser.EmailAddress)
+	err = c.Session.Set("publicKey", didUser.PublicKey)
+	err = c.Session.Set("id", didUser.Id)
+
+	if err != nil {
+		log.Printf("Unable to set sessions: %s", err.Error())
+	}
+
 
 	return c.Render(didUser)
 }

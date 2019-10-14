@@ -1,4 +1,6 @@
 // GENERATED CODE - DO NOT EDIT
+// This file provides a way of creating URL's based on all the actions
+// found in all the controllers.
 package routes
 
 import "github.com/revel/revel"
